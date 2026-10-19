@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Wealth Ladder · Millionaire Habits</title>
+<style>
+:root{color-scheme:light;--paper:#f5f7f2;--ink:#18332e;--muted:#61736d;--grid:#dce3dc;--accent:#087f70;--line:#e4eae3}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+.shell{max-width:1320px;margin:auto;padding:30px clamp(18px,4vw,56px) 24px}
+.eyebrow{font-size:.75rem;font-weight:800;letter-spacing:.13em;color:var(--accent)}
+header{display:flex;justify-content:space-between;gap:24px;align-items:flex-start}
+h1{font-size:clamp(2rem,4vw,3.4rem);letter-spacing:-.04em;line-height:1.02;margin:16px 0 10px}
+.dek{color:var(--muted);font-size:1rem;margin:0;max-width:760px}
+.record-count{font-size:.76rem;font-weight:800;color:var(--muted);white-space:nowrap;margin-top:4px}
+.story{display:grid;grid-template-columns:1.2fr .8fr;gap:14px;margin:25px 0 22px}
+.story-card,.chart-card,.detail{background:#fff;border:1px solid var(--line);border-radius:16px}
+.story-card{padding:17px 19px}
+.story-card strong{display:block;color:var(--accent);font-size:1rem;margin-bottom:5px}
+.story-card p{color:var(--muted);font-size:.87rem;line-height:1.5;margin:0}
+.chart-card{padding:18px 18px 12px}
+.chart-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;flex-wrap:wrap}
+h2{margin:0;font-size:1.04rem}
+.unit{color:var(--muted);font-size:.78rem;margin-top:5px}
+.controls{display:flex;gap:7px;flex-wrap:wrap;margin:15px 0 4px}
+.metric{appearance:none;border:1px solid #d5dfd8;background:white;border-radius:999px;color:var(--muted);padding:8px 12px;font-family:inherit;font-size:.78rem;font-weight:600;cursor:pointer}
+.metric:hover,.metric[aria-pressed=true]{background:#e6f1ed;border-color:#78afa4;color:#075e53}
+.metric:focus-visible,.point:focus{outline:3px solid #e1b75c;outline-offset:2px}
+#chart{display:block;width:100%;height:auto;overflow:visible}
+.detail{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-top:6px;padding:15px 18px;min-height:76px}
+.detail h3{margin:0 0 4px;font-size:1rem}
+.detail p{margin:0;color:var(--muted);font-size:.82rem;line-height:1.45}
+.detail-stat{font-size:1.15rem;font-weight:800;color:var(--accent);text-align:right;white-space:nowrap}
+.hint{font-size:.77rem;color:var(--muted);margin:10px 2px 0}
+.foot{border-top:1px solid var(--line);margin-top:22px;padding-top:13px;color:var(--muted);font-size:.76rem;line-height:1.55}
+.tooltip{position:fixed;pointer-events:none;z-index:3;display:none;background:#18332e;color:white;padding:9px 11px;border-radius:8px;font-size:.76rem;line-height:1.5;box-shadow:0 5px 22px #18332e30}
+.point{cursor:pointer}
+@media(max-width:720px){.shell{padding:20px 14px}.record-count{font-size:.65rem}.story{grid-template-columns:1fr}.chart-card{padding:13px 8px}.metric{padding:7px 9px;font-size:.7rem}.detail{align-items:flex-start;flex-direction:column}.detail-stat{text-align:left}.foot{font-size:.7rem}}
+</style>
+</head>
+<body>
+<main class="shell">
+<header><div><div class="eyebrow">MILLIONAIRE HABITS / THE WEALTH LADDER</div>
+<h1>Financial profiles shift as net worth climbs</h1>
+<p class="dek">Explore what changes—and what stays almost flat—across the dataset's wealth tiers.</p></div>
+<div class="record-count">100,000 RECORDS</div></header>
+<section class="story" aria-label="Key findings">
+<div class="story-card"><strong>A sudden step in diversification</strong><p>The median portfolio-diversification score rises from 55.5 in the $500k–$1m tier to 77.8 in the $1m–$2.5m tier, then reaches the score ceiling of 100 above $2.5m.</p></div>
+<div class="story-card"><strong>One measure barely moves</strong><p>Median emergency-fund coverage stays between about 2.1 and 2.8 months across all wealth tiers.</p></div>
+</section>
+<section class="chart-card" aria-label="Interactive wealth profile chart">
+<div class="chart-head"><div><h2 id="chart-title">Portfolio diversification by wealth tier</h2><div class="unit" id="chart-unit">Median and middle 50% of records · score / 100</div></div>
+<div class="record-count">Click a point to pin a tier below</div></div>
+<nav class="controls" aria-label="Choose financial measure"><button class="metric" data-key="portfolio_diversification_score" aria-pressed="true">Diversification</button>
+<button class="metric" data-key="passive_income_ratio" aria-pressed="false">Passive income</button>
+<button class="metric" data-key="savings_rate" aria-pressed="false">Savings rate</button>
+<button class="metric" data-key="debt_stress_score" aria-pressed="false">Debt stress</button>
+<button class="metric" data-key="emergency_fund_months" aria-pressed="false">Emergency fund</button></nav>
+<svg id="chart" viewBox="0 0 1080 440" role="img" aria-label="Median financial measure and interquartile ranges by wealth tier"></svg>
+<div class="detail" aria-live="polite"><div><h3 id="detail-title">Select a wealth tier</h3><p id="detail-copy">Hover a point for its sample size and middle-half range; click to keep the tier selected.</p></div><div class="detail-stat" id="detail-stat"></div></div>
+<p class="hint">Every dot is a tier's median; the vertical line spans its 25th–75th percentile range. The $1m threshold is marked.</p>
+</section>
+<footer class="foot">All observations are synthetic. Categories are based on net worth, so the chart describes financial characteristics within generated wealth tiers; it does not show that a habit causes wealth. Negative and zero-to-$10k groups are small. Scores and ratios may be generated or derived by the dataset. Not financial advice.</footer>
+</main>
+<div class="tooltip" id="tooltip" role="status"></div>
+<script>
+const DATA = {"order":["negative_net_worth","zero_to_10k","10k_to_50k","50k_to_100k","100k_to_250k","250k_to_500k","500k_to_1m","1m_to_2.5m","2.5m_to_5m","5m_to_10m","10m_plus"],"labels":{"negative_net_worth":"Negative","zero_to_10k":"$0\u201310k","10k_to_50k":"$10\u201350k","50k_to_100k":"$50\u2013100k","100k_to_250k":"$100\u2013250k","250k_to_500k":"$250\u2013500k","500k_to_1m":"$500k\u20131m","1m_to_2.5m":"$1\u20132.5m","2.5m_to_5m":"$2.5\u20135m","5m_to_10m":"$5\u201310m","10m_plus":"$10m+"},"metrics":{"portfolio_diversification_score":{"label":"Portfolio diversification","short":"Diversification","unit":"score / 100","format":"score","color":"#16877B","description":"Reported portfolio-diversification score."},"passive_income_ratio":{"label":"Passive income share","short":"Passive income","unit":"% of income","format":"percent","color":"#5379A8","description":"Passive income as a share of income."},"savings_rate":{"label":"Savings rate","short":"Savings rate","unit":"% of income","format":"percent","color":"#D58B42","description":"Share of income saved."},"debt_stress_score":{"label":"Debt stress","short":"Debt stress","unit":"score / 100","format":"score","color":"#D56553","description":"Reported debt-stress score; higher means more stress."},"emergency_fund_months":{"label":"Emergency fund","short":"Emergency fund","unit":"months covered","format":"months","color":"#7C8F4B","description":"Months of expenses covered by the emergency fund."}},"summary":{"negative_net_worth":{"label":"Negative","n":262,"metrics":{"portfolio_diversification_score":{"q1":26.924999999999997,"median":39.95,"q3":53.6},"passive_income_ratio":{"q1":1.0999999999999999,"median":3.3000000000000003,"q3":6.800000000000001},"savings_rate":{"q1":2.3249999999999997,"median":12.350000000000001,"q3":23.025000000000002},"debt_stress_score":{"q1":65.625,"median":80.5,"q3":92.7},"emergency_fund_months":{"q1":1.0,"median":2.2,"q3":4.8}}},"zero_to_10k":{"label":"$0\u201310k","n":115,"metrics":{"portfolio_diversification_score":{"q1":26.549999999999997,"median":40.4,"q3":52.25},"passive_income_ratio":{"q1":1.3,"median":3.5000000000000004,"q3":6.700000000000001},"savings_rate":{"q1":1.85,"median":10.8,"q3":22.4},"debt_stress_score":{"q1":59.650000000000006,"median":72.5,"q3":89.1},"emergency_fund_months":{"q1":1.1,"median":2.1,"q3":5.199999999999999}}},"10k_to_50k":{"label":"$10\u201350k","n":1234,"metrics":{"portfolio_diversification_score":{"q1":26.5,"median":40.7,"q3":54.4},"passive_income_ratio":{"q1":1.2,"median":3.0,"q3":6.4},"savings_rate":{"q1":3.325,"median":12.9,"q3":22.3},"debt_stress_score":{"q1":50.425,"median":68.45,"q3":84.65},"emergency_fund_months":{"q1":1.0,"median":2.5,"q3":5.1}}},"50k_to_100k":{"label":"$50\u2013100k","n":2995,"metrics":{"portfolio_diversification_score":{"q1":27.85,"median":40.7,"q3":54.0},"passive_income_ratio":{"q1":2.1,"median":4.7,"q3":9.4},"savings_rate":{"q1":7.449999999999999,"median":16.2,"q3":25.2},"debt_stress_score":{"q1":45.25,"median":62.5,"q3":79.4},"emergency_fund_months":{"q1":1.1,"median":2.7,"q3":5.3}}},"100k_to_250k":{"label":"$100\u2013250k","n":12096,"metrics":{"portfolio_diversification_score":{"q1":29.8,"median":42.9,"q3":56.5},"passive_income_ratio":{"q1":4.0,"median":7.5,"q3":13.8},"savings_rate":{"q1":12.7,"median":20.8,"q3":29.2},"debt_stress_score":{"q1":43.6,"median":60.1,"q3":77.9},"emergency_fund_months":{"q1":1.1,"median":2.7,"q3":5.4}}},"250k_to_500k":{"label":"$250\u2013500k","n":18083,"metrics":{"portfolio_diversification_score":{"q1":33.2,"median":46.9,"q3":60.25},"passive_income_ratio":{"q1":6.7,"median":11.899999999999999,"q3":20.3},"savings_rate":{"q1":16.400000000000002,"median":24.0,"q3":31.8},"debt_stress_score":{"q1":42.3,"median":58.8,"q3":76.6},"emergency_fund_months":{"q1":1.1,"median":2.7,"q3":5.5}}},"500k_to_1m":{"label":"$500k\u20131m","n":22723,"metrics":{"portfolio_diversification_score":{"q1":41.6,"median":55.5,"q3":69.3},"passive_income_ratio":{"q1":11.1,"median":18.7,"q3":30.7},"savings_rate":{"q1":19.8,"median":27.200000000000003,"q3":34.9},"debt_stress_score":{"q1":41.9,"median":57.8,"q3":75.0},"emergency_fund_months":{"q1":1.2,"median":2.8,"q3":5.6}}},"1m_to_2.5m":{"label":"$1\u20132.5m","n":25342,"metrics":{"portfolio_diversification_score":{"q1":61.8,"median":77.8,"q3":94.0},"passive_income_ratio":{"q1":20.0,"median":32.5,"q3":50.9},"savings_rate":{"q1":22.900000000000002,"median":30.099999999999998,"q3":37.6},"debt_stress_score":{"q1":40.7,"median":55.9,"q3":72.4},"emergency_fund_months":{"q1":1.2,"median":2.8,"q3":5.5}}},"2.5m_to_5m":{"label":"$2.5\u20135m","n":10670,"metrics":{"portfolio_diversification_score":{"q1":100.0,"median":100.0,"q3":100.0},"passive_income_ratio":{"q1":38.625,"median":58.4,"q3":88.975},"savings_rate":{"q1":25.8,"median":32.9,"q3":40.2},"debt_stress_score":{"q1":39.6,"median":54.4,"q3":70.0},"emergency_fund_months":{"q1":1.2,"median":2.8,"q3":5.6}}},"5m_to_10m":{"label":"$5\u201310m","n":4665,"metrics":{"portfolio_diversification_score":{"q1":100.0,"median":100.0,"q3":100.0},"passive_income_ratio":{"q1":65.10000000000001,"median":93.0,"q3":100.0},"savings_rate":{"q1":28.199999999999996,"median":35.199999999999996,"q3":42.5},"debt_stress_score":{"q1":38.4,"median":52.8,"q3":67.7},"emergency_fund_months":{"q1":1.2,"median":2.8,"q3":5.6}}},"10m_plus":{"label":"$10m+","n":1815,"metrics":{"portfolio_diversification_score":{"q1":100.0,"median":100.0,"q3":100.0},"passive_income_ratio":{"q1":100.0,"median":100.0,"q3":100.0},"savings_rate":{"q1":30.2,"median":37.2,"q3":44.55},"debt_stress_score":{"q1":38.4,"median":52.2,"q3":66.25},"emergency_fund_months":{"q1":1.1,"median":2.8,"q3":5.4}}}},"rowCount":100000};
+const svg = document.getElementById("chart");
+const tooltip = document.getElementById("tooltip");
+let activeMetric = Object.keys(DATA.metrics)[0];
+let pinned = null;
+const NS = "http://www.w3.org/2000/svg";
+const make = (tag, attrs={}, text="") => {
+  const element = document.createElementNS(NS, tag);
+  for (const [key,value] of Object.entries(attrs)) element.setAttribute(key,value);
+  if (text) element.textContent = text;
+  return element;
+};
+const fmt = (value, metric) => metric.format === "percent" ? `${value.toFixed(1)}%` : metric.format === "months" ? `${value.toFixed(1)} mo` : value.toFixed(1);
+function render(metricKey) {
+  activeMetric = metricKey;
+  const metric = DATA.metrics[metricKey];
+  document.getElementById("chart-title").textContent = `${metric.label} by wealth tier`;
+  document.getElementById("chart-unit").textContent = `Median and middle 50% of records · ${metric.unit}`;
+  document.querySelectorAll(".metric").forEach(button => button.setAttribute("aria-pressed", String(button.dataset.key === metricKey)));
+  svg.replaceChildren();
+  const W=1080,H=440,L=70,R=28,T=32,B=112, PW=W-L-R, PH=H-T-B;
+  const values=DATA.order.flatMap(key => {
+    const point=DATA.summary[key].metrics[metricKey];
+    return point ? [point.q1,point.q3] : [];
+  });
+  let min=Math.min(...values), max=Math.max(...values);
+  const pad=(max-min || 1)*.14; min=Math.max(metric.format==="percent"?0:0,min-pad); max+=pad;
+  const x=i=>L+i*PW/(DATA.order.length-1);
+  const y=v=>T+PH-(v-min)/(max-min)*PH;
+  const defs=make("defs");
+  const gradient=make("linearGradient",{id:"line-gradient",x1:"0",x2:"1",y1:"0",y2:"0"});
+  gradient.append(make("stop",{offset:"0%","stop-color":metric.color,"stop-opacity":".45"}));
+  gradient.append(make("stop",{offset:"100%","stop-color":metric.color}));
+  defs.append(gradient); svg.append(defs);
+  const millionaireX=(x(6)+x(7))/2;
+  svg.append(make("rect",{x: millionaireX-1,y:T,width:2,height:PH,fill:"#d6a54b","stroke-dasharray":"4 5","opacity":".85"}));
+  svg.append(make("text",{x: millionaireX+7,y:T+10,fill:"#92702e","font-size":"11","font-weight":"700"},"$1m net worth"));
+  for(let i=0;i<=4;i++){
+    const value=min+(max-min)*i/4, yy=y(value);
+    svg.append(make("line",{x1:L,y1:yy,x2:W-R,y2:yy,stroke:"#dce3dc","stroke-width":"1"}));
+    svg.append(make("text",{x:L-12,y:yy+4,"text-anchor":"end",fill:"#61736d","font-size":"11"},fmt(value,metric)));
+  }
+  const linePoints=[];
+  DATA.order.forEach((wealth,index)=>{
+    const stat=DATA.summary[wealth].metrics[metricKey];
+    if(!stat) return;
+    const xx=x(index), yy=y(stat.median);
+    linePoints.push(`${xx},${yy}`);
+    svg.append(make("line",{x1:xx,y1:y(stat.q1),x2:xx,y2:y(stat.q3),stroke:metric.color,"stroke-width":"4","stroke-linecap":"round",opacity:".5"}));
+    svg.append(make("line",{x1:xx-6,y1:y(stat.q1),x2:xx+6,y2:y(stat.q1),stroke:metric.color,"stroke-width":"1.5",opacity:".7"}));
+    svg.append(make("line",{x1:xx-6,y1:y(stat.q3),x2:xx+6,y2:y(stat.q3),stroke:metric.color,"stroke-width":"1.5",opacity:".7"}));
+    const selected=pinned===wealth;
+    const circle=make("circle",{cx:xx,cy:yy,r:selected?8:6,fill:metric.color,stroke:selected?"#18332e":"white","stroke-width":selected?3:2,class:"point",tabindex:"0",role:"button","aria-label":`${WEALTH_LABEL(wealth)}; median ${fmt(stat.median,metric)}; sample ${DATA.summary[wealth].n}`});
+    circle.addEventListener("mouseenter",event=>showTooltip(event,wealth,stat,metric));
+    circle.addEventListener("mousemove",positionTooltip);
+    circle.addEventListener("mouseleave",()=>{tooltip.style.display="none"});
+    circle.addEventListener("focus",()=>showPinned(wealth,metric));
+    circle.addEventListener("click",()=>{pinned=wealth; render(metricKey); showPinned(wealth,metric)});
+    circle.addEventListener("keydown",event=>{if(event.key==="Enter"||event.key===" "){event.preventDefault();pinned=wealth;render(metricKey);showPinned(wealth,metric)}});
+    svg.append(circle);
+    const label=make("text",{x:xx,y:T+PH+25,"text-anchor":"middle",fill:"#344c45","font-size":"11","font-weight":wealth==="1m_to_2.5m"?"800":"500"});
+    const [first,second]=DATA.summary[wealth].label.split(" ");
+    label.append(make("tspan",{x:xx,dy:"0"},first));
+    if(second) label.append(make("tspan",{x:xx,dy:"14"},second));
+    svg.append(label);
+  });
+  svg.insertBefore(make("polyline",{points:linePoints.join(" "),fill:"none",stroke:"url(#line-gradient)","stroke-width":"3","stroke-linejoin":"round","stroke-linecap":"round"}),svg.children[1]||null);
+  if(pinned) showPinned(pinned,metric);
+  else {
+    document.getElementById("detail-title").textContent="Select a wealth tier";
+    document.getElementById("detail-copy").textContent="Hover a point for its sample size and middle-half range; click to keep the tier selected.";
+    document.getElementById("detail-stat").textContent="";
+  }
+}
+function WEALTH_LABEL(key){return DATA.summary[key].label.replace("–"," to ")}
+function showTooltip(event,wealth,stat,metric){
+  tooltip.innerHTML=`<strong>${WEALTH_LABEL(wealth)}</strong><br>Median: ${fmt(stat.median,metric)}<br>Middle half: ${fmt(stat.q1,metric)}–${fmt(stat.q3,metric)}<br>Records: ${DATA.summary[wealth].n.toLocaleString()}`;
+  tooltip.style.display="block"; positionTooltip(event);
+}
+function positionTooltip(event){tooltip.style.left=`${Math.min(event.clientX+14,window.innerWidth-230)}px`;tooltip.style.top=`${Math.min(event.clientY+14,window.innerHeight-110)}px`}
+function showPinned(wealth,metric){
+  const stat=DATA.summary[wealth].metrics[activeMetric];
+  const base=DATA.summary[DATA.order[0]].metrics[activeMetric];
+  document.getElementById("detail-title").textContent=WEALTH_LABEL(wealth);
+  document.getElementById("detail-copy").textContent=`Middle 50%: ${fmt(stat.q1,metric)}–${fmt(stat.q3,metric)} · ${DATA.summary[wealth].n.toLocaleString()} records. Compared with the lowest-net-worth tier: ${stat.median>=base.median?"+":""}${fmt(stat.median-base.median,metric)} at the median.`;
+  document.getElementById("detail-stat").textContent=`${fmt(stat.median,metric)} median`;
+}
+document.querySelectorAll(".metric").forEach(button=>button.addEventListener("click",()=>render(button.dataset.key)));
+render(activeMetric);
+</script>
+</body></html>
