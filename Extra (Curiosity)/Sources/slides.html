@@ -1,0 +1,21 @@
+<title>Klasszifikáció</title>
+<link rel="stylesheet" href="../../assets/deck/deck.css" />
+<style>
+  /* Csak ennek az órának (a megosztott deck.css-t nem módosítja): a csak-listás és a bekezdés+tension diákon a szöveg a dia
+     teljes mondanivalója, ezért nagyobb. (Egy közös szabály az 1. óra egyik hosszú listás diáját túlcsordította.) */
+  .slide--content:not(.has-visual) .body-stack:not(:has(> :not(ul))) > ul { font-size: clamp(24px, 2.8vw, 34px); }
+  .slide--content:not(.has-visual) .body-stack:has(> .tension):not(:has(> ul, > .ask, > .plaque)) > p { font-size: clamp(24px, 2.7vw, 34px); }
+  .slide--content:not(.has-visual) .body-stack:has(> .tension):not(:has(> ul, > .ask, > .plaque)) > .tension { font-size: clamp(22px, 2.6vw, 30px); padding: 22px 30px; }
+</style>
+<div class="deck" id="deck"></div>
+
+<div class="nav-zone nav-zone--prev" aria-hidden="true"></div>
+<div class="nav-zone nav-zone--next" aria-hidden="true"></div>
+
+<button class="nav-btn nav-btn--prev" id="nav-prev" aria-label="Előző dia">‹</button>
+<button class="nav-btn nav-btn--next" id="nav-next" aria-label="Következő dia">›</button>
+
+<div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+
+<script src="slides-data.js"></script>
+<script src="../../assets/deck/deck.js"></script>
